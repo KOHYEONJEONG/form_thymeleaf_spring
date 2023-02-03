@@ -20,31 +20,40 @@
 
     <!-- 처음에는 빈 값인 item이 넘어온다(th:object="${item}") -->
     <form action="item.html" th:action th:object="${item}" method="post">
-        <div>
-            <label for="itemName">상품명</label>
+            <div>
+                <label for="itemName">상품명</label>
+                <!--
+                    th:feild를 사용하면 id, name, value 속성을 만들어준다.(굳!, 페이스 소스 보기하면 생성된 것을 볼 수 있다)
+                    th:feild="${item.itemName}"  -> th:feild="*{item.itemName}" (*은 th:object="${item}")에 item을 의미한다)
+                -->
+                <input type="text" th:field="*{itemName}" id="itemName" class="form-control" placeholder="이름을 입력하세요">
+            </div>
+            <div>
+                <label for="price">가격</label>
+                <input type="text" th:field="*{price}" id="price" class="form-control" placeholder="가격을 입력하세요">
+            </div>
+            <div>
+                <label for="quantity">수량</label>
+                <input type="text" th:field="*{quantity}" id="quantity" class="form-control" placeholder="수량을 입력하세요">
+            </div>
+
+            <hr class="my-4">
+
+            <!-- single checkbox(타임리프 사용 전, 순수 HTML) -->
+            <div>판매 여부</div>
+            <div>
             <!--
-                th:feild를 사용하면 id, name, value 속성을 만들어준다.(굳!, 페이스 소스 보기하면 생성된 것을 볼 수 있다)
-                th:feild="${item.itemName}"  -> th:feild="*{item.itemName}" (*은 th:object="${item}")에 item을 의미한다)
-            -->
-            <input type="text" th:field="*{itemName}" id="itemName" class="form-control" placeholder="이름을 입력하세요">
-        </div>
-        <div>
-            <label for="price">가격</label>
-            <input type="text" th:field="*{price}" id="price" class="form-control" placeholder="가격을 입력하세요">
-        </div>
-        <div>
-            <label for="quantity">수량</label>
-            <input type="text" th:field="*{quantity}" id="quantity" class="form-control" placeholder="수량을 입력하세요">
-        </div>
-
-        <hr class="my-4">
-
-        <!-- single checkbox -->
-        <div>판매 여부</div>
-        <div>
+            순수 html을 사용한 단일 체크박스
             <div class="form-check">
-                <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
-                <input type="hidden" name="_open" value="on"/><!--히든 필드 추가-->
+                <input type="checkbox" id="open" name="open" class="form-check-input"> &lt;!&ndash; 체크하면 on으로 넘어가며 vo에 true로 담긴다.&ndash;&gt;
+                <input type="hidden" name="_open" value="on"/> &lt;!&ndash;히든 필드 추가&ndash;&gt;
+                <label for="open" class="form-check-label">판매 오픈</label>
+            </div>
+            -->
+
+            <div class="form-check">
+                <input type="checkbox" th:field="*{open}" id="open" class="form-check-input">
+                <!--자동으로 페이지검사 보임. <input type="hidden" name="_open" value="on"/> 생성되어있다(타임리프는 무적..) -->
                 <label for="open" class="form-check-label">판매 오픈</label>
             </div>
         </div>

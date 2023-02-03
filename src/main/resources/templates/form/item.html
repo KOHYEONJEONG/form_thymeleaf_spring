@@ -44,7 +44,9 @@
     <div>판매 여부</div>
     <div>
         <div class="form-check">
+            <!-- 💥타임리프는 체크가 되어 있다면 알아서 checked 속성을 넣어준다. -->
             <input type="checkbox" id="open" th:field="${item.open}" class="form-check-input" disabled>
+            <!--자동으로 페이지검사 보임. <input type="hidden" name="_open" value="on"/> 생성되어있다(타임리프는 무적..) -->
             <label for="open" class="form-check-label">판매 오픈</label>
         </div>
     </div>

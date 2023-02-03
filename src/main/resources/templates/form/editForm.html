@@ -18,10 +18,11 @@
             <h2>상품 수정 폼</h2>
         </div>
 
+        <!--http://127.0.0.1:8090/form/items/1/edit-->
         <form action="item.html" th:action th:object="${item}" method="post">
             <div>
                 <label for="itemName">상품명</label>
-                <input type="text" id="itemName" th:field="*{itemName}" class="formcontrol"
+                <input type="text" id="itemName" th:field="*{itemName}" class="form-control"
                        placeholder="이름을 입력하세요">
             </div>
             <div>
@@ -31,8 +32,31 @@
             </div>
             <div>
                 <label for="quantity">수량</label>
-                <input type="text" id="quantity" th:field="*{quantity}" class="formcontrol"
-                       placeholder="수량을 입력하세요">
+                <input type="text" id="quantity" th:field="*{quantity}" class="form-control" placeholder="수량을 입력하세요">
+            </div>
+
+            <hr class="my-4">
+            <div>판매 여부</div>
+            <div>
+                <div class="form-check">
+                    <input type="checkbox" th:field="*{open}" id="open" class="form-check-input">
+                    <!--자동으로 페이지검사 보임. <input type="hidden" name="_open" value="on"/> 생성되어있다(타임리프는 무적..) -->
+                    <label for="open" class="form-check-label">판매 오픈</label>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">상품 수정</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            onclick="location.href='items.html'"
+                            th:onclick="|location.href='@{/form/items}'|"
+                            type="button">취소</button>
+                </div>
             </div>
         </form>
     </div>
