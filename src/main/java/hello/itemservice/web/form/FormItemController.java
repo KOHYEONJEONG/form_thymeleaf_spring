@@ -24,9 +24,29 @@ public class FormItemController {
 
     private final ItemRepository itemRepository;
 
+    /**
+     * @ModelAttribute 는 이렇게 컨트롤러에 있는 별도의 메서드에 적용할 수 있다.
+    이렇게하면 해당 컨트롤러를 요청할 때 regions 에서 반환한 값이 자동으로 모델( model )에 담기게 된다.
+    물론 이렇게 사용하지 않고, 각각의 컨트롤러 메서드에서 모델에 직접 데이터를 담아서 처리해도 된다.
+     * */
+    @ModelAttribute("regions")
+    public Map<String, String> regions(){
+        Map<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL","서울");
+        regions.put("BUSAN","부산");
+        regions.put("JEJU","제주");
+        return regions;
+        //현재 컨트롤러에 모든 메소드가 호출되면 자동으로 🔽생성된다.
+        //model.addAttribute("regions",regions);
+    }
+
+    /** 라디오 버튼
+     * Enum으로 생성한 데이터를 보낼거당.
+     * */
     @ModelAttribute("itemTypes")
     public ItemType[] itemTypes() {
-        return ItemType.values();
+        //ItemType[] values = ItemType.values();
+        return ItemType.values();//ItemType.values()를 사용하면 해당 ENUM의 모든 정보를 배열로 반환한다.
     }
 
     @ModelAttribute("deliveryCodes")
@@ -78,12 +98,18 @@ public class FormItemController {
         return "redirect:/form/items/{itemId}";
     }
 
-    /** 타임리프를 사용한 단일 체크박스 */
+    /** 타임리프를 사용한 단일 체크박스 + 멀티 체크박스 + 라디오버튼(enum) */
     @PostMapping("/add")
     public String addItem_thymeleaf_checkBox(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
         //item.open=false(체크 안하면)
         //item.open=true (체크 시)
-        log.info("item.open={}", item.getOpen());
+        log.info("item.open={}", item.getOpen());//단일
+
+        log.info("item.regions={}", item.getRegions());//멀티(vo에서 List<String> regions에 담긴다)
+        // item.regions=[SEOUL, BUSAN]
+
+        log.info("item.itemType={}",item.getItemType().getDescription());//item.itemType=음식
+
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());//
@@ -106,18 +132,7 @@ public class FormItemController {
         return "redirect:/form/items/{itemId}";
     }
 
-    /**
-     * @ModelAttribute 는 이렇게 컨트롤러에 있는 별도의 메서드에 적용할 수 있다.
-        이렇게하면 해당 컨트롤러를 요청할 때 regions 에서 반환한 값이 자동으로 모델( model )에 담기게 된다.
-        물론 이렇게 사용하지 않고, 각각의 컨트롤러 메서드에서 모델에 직접 데이터를 담아서 처리해도 된다.
-     * */
-    @ModelAttribute("regions")
-    public Map<String, String> regions(){
-        Map<String, String> regions = new LinkedHashMap<>();
-        regions.put("SEOUL","서울");
-        regions.put("BUSAN","부산");
-        regions.put("JEJU","제주");
-        return regions;
-    }
+
+
 }
 

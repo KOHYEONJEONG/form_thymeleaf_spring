@@ -12,7 +12,7 @@ public enum ItemType {//상품종류는 ENUM을 사용!, 설명은 DeliveryCode 
         this.description = description;
     }
 
-    /*중요!! 꺼내서 사용해야하니까!!*/
+    /*중요!! 꺼내서 사용해야하니까!!(프로퍼티 접근법으로 꺼내기 때문엥)*/
     public String getDescription() {
         return description;
     }

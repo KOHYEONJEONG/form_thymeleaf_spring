@@ -20,30 +20,30 @@
 
     <!-- 처음에는 빈 값인 item이 넘어온다(th:object="${item}") -->
     <form action="item.html" th:action th:object="${item}" method="post">
-            <div>
-                <label for="itemName">상품명</label>
-                <!--
-                    th:feild를 사용하면 id, name, value 속성을 만들어준다.(굳!, 페이스 소스 보기하면 생성된 것을 볼 수 있다)
-                    th:feild="${item.itemName}"  -> th:feild="*{item.itemName}" (*은 th:object="${item}")에 item을 의미한다)
-                -->
-                <input type="text" th:field="*{itemName}" id="itemName" class="form-control" placeholder="이름을 입력하세요">
-            </div>
-            <div>
-                <label for="price">가격</label>
-                <input type="text" th:field="*{price}" id="price" class="form-control" placeholder="가격을 입력하세요">
-            </div>
-            <div>
-                <label for="quantity">수량</label>
-                <input type="text" th:field="*{quantity}" id="quantity" class="form-control" placeholder="수량을 입력하세요">
-            </div>
-
-            <hr class="my-4">
-
-            <!-- single checkbox(타임리프 사용 전, 순수 HTML) -->
-            <div>판매 여부</div>
-            <div>
+        <div>
+            <label for="itemName">상품명</label>
             <!--
-            순수 html을 사용한 단일 체크박스
+                th:feild를 사용하면 id, name, value 속성을 만들어준다.(굳!, 페이스 소스 보기하면 생성된 것을 볼 수 있다)
+                th:feild="${item.itemName}"  -> th:feild="*{item.itemName}" (*은 th:object="${item}")에 item을 의미한다)
+            -->
+            <input type="text" th:field="*{itemName}" id="itemName" class="form-control" placeholder="이름을 입력하세요">
+        </div>
+        <div>
+            <label for="price">가격</label>
+            <input type="text" th:field="*{price}" id="price" class="form-control" placeholder="가격을 입력하세요">
+        </div>
+        <div>
+            <label for="quantity">수량</label>
+            <input type="text" th:field="*{quantity}" id="quantity" class="form-control" placeholder="수량을 입력하세요">
+        </div>
+
+        <hr class="my-4">
+
+
+        <div>판매 여부</div>
+        <div>
+            <!--
+              single checkbox(타임리프 사용 전, 순수 HTML)
             <div class="form-check">
                 <input type="checkbox" id="open" name="open" class="form-check-input"> &lt;!&ndash; 체크하면 on으로 넘어가며 vo에 true로 담긴다.&ndash;&gt;
                 <input type="hidden" name="_open" value="on"/> &lt;!&ndash;히든 필드 추가&ndash;&gt;
@@ -51,13 +51,58 @@
             </div>
             -->
 
+            <!-- single checkbox(타임리프 사용 후) -->
             <div class="form-check">
                 <input type="checkbox" th:field="*{open}" id="open" class="form-check-input">
                 <!--자동으로 페이지검사 보임. <input type="hidden" name="_open" value="on"/> 생성되어있다(타임리프는 무적..) -->
                 <label for="open" class="form-check-label">판매 오픈</label>
             </div>
         </div>
+        <hr class="my-4">
+        <!--
+         [multi checkbox]
+         체크박스는 name은 같아도, html에서는 id가 같으면 안되잖아?
+         따라서 타임리프는 체크박스를 each 루프안에서 반복해서 만들때 이의로 1,2,3 숫자를 뒤에 붙여준다.
+        -->
+        <div>
+            <div>등록 지역</div>
+            <div th:each="region : ${regions}" class="form-check form-check-inline" >
 
+                <!--th:field="*{regions}"은 "*{item.regions}와 같다."-->
+                <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
+
+                <!-- th:for은 input에 id를 참조하므로 알아야함, 타임리프가 루프 돌때 id 각 다르게 만들어준다. 타임리프는 동적으로 생성될때 #ids를 지원해준다. -->
+                <label th:for="${#ids.prev('regions')}" th:text="${region.value}" class="form-check-label"></label>
+
+                <!-- 페이지 검사 🔽
+                    <input type="checkbox" value="SEOUL" class="form-check-input" id="regions1" name="regions"><input type="hidden" name="_regions" value="on"/>
+                    <label for="regions1" class="form-check-label">서울</label>
+
+                    <input type="checkbox" value="BUSAN" class="form-check-input" id="regions2" name="regions"><input type="hidden" name="_regions" value="on"/>
+                    <label for="regions2" class="form-check-label">부산</label>
+
+                    <input type="checkbox" value="JEJU" class="form-check-input" id="regions3" name="regions"><input type="hidden" name="_regions" value="on"/>
+                    <label for="regions3" class="form-check-label">제주</label>
+                 -->
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- radio button -->
+        <div>
+            <div>상품 종류</div>
+            <!--타임리프는 ENUM 속성에 직접 접근할 수도 있다(Model에 안담겨도 된다), 단 패키지를 변경 등 유지보수 하기가 그닥? model로 넘기는 게 깔금하다 아래 주석처럼 사용하자.-->
+            <div th:each="type : ${T(hello.itemservice.domain.item.ItemType).values()}" class="form-check form-check-inline">
+           <!-- <div th:each="type : ${itemTypes}" class="form-check form-check-inline">-->
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}"
+                       class="form-check-input">
+                <label th:for="${#ids.prev('itemType')}" th:text="${type.description}"
+                       class="form-check-label">
+                    BOOK
+                </label>
+            </div>
+        </div>
 
         <hr class="my-4">
 
