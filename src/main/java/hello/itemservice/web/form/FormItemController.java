@@ -29,6 +29,7 @@ public class FormItemController {
     이렇게하면 해당 컨트롤러를 요청할 때 regions 에서 반환한 값이 자동으로 모델( model )에 담기게 된다.
     물론 이렇게 사용하지 않고, 각각의 컨트롤러 메서드에서 모델에 직접 데이터를 담아서 처리해도 된다.
      * */
+    /**멀티 체크박스 값*/
     @ModelAttribute("regions")
     public Map<String, String> regions(){
         Map<String, String> regions = new LinkedHashMap<>();
@@ -40,7 +41,7 @@ public class FormItemController {
         //model.addAttribute("regions",regions);
     }
 
-    /** 라디오 버튼
+    /** 라디오 버튼 값
      * Enum으로 생성한 데이터를 보낼거당.
      * */
     @ModelAttribute("itemTypes")
@@ -49,12 +50,13 @@ public class FormItemController {
         return ItemType.values();//ItemType.values()를 사용하면 해당 ENUM의 모든 정보를 배열로 반환한다.
     }
 
+    /**셀렉트 박스 값*/
     @ModelAttribute("deliveryCodes")
-    public List<DeliveryCode> deliveryCodes() {
+    public List<DeliveryCode> deliveryCodes(){
         List<DeliveryCode> deliveryCodes = new ArrayList<>();
-        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
-        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
-        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+        deliveryCodes.add(new DeliveryCode("FAST","빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NOMAL","일반 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW","느린 배송"));
         return deliveryCodes;
     }
 
