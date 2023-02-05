@@ -1,0 +1,33 @@
+#스프링 통합으로 추가되는 기능들
+① 스프링의 springEL 문법 통합
+② $(@myBean.doSomething()} 처럼 스프링 빈 호출 지원
+③ 편리한 폼 관리를 위한 추가 속성
+    ㄴ th:object 기능 강화, 폼 커맨드 객체 선택
+    ㄴ th:field, th:errors, th:errorclass
+④ 폼 컴포넌트 기능
+    ㄴ checkbox, radio button, List 등을 편리하게 사용할 수 있는 기능 지원
+-- 🔽 아래 부터는 이 프로젝트에 없는 내용---
+⑤ 스프링의 메시지, 국제화 기능의 편리한 통합
+⑥ 스프링의 검증, 오류 처리 통합
+⑦ 스프링의 변환 서비스 통합(ConversionService)
+
+
+# 현재 프로젝트에서 한 것.
+① 입력 폼 처리
+    ㄴ th:object 커맨트 객체를 지정한다.(th:object="${item}")
+    ㄴ *{...} 선택 변수 식이라고 한다. th:object에서 선택한 객체에 접근한다.
+    ㄴ th:field
+        ㄴ HTML 태그의 id, name, value 속성을 자동을 처리해준다.(생성해준다)
+
+    [렌더링 전]
+    <input type="text" th:field="*{itemName}"/>
+
+    [렌더링 후(페이지 검사하면 볼 수 있음.)]
+    <input type="text" id="itemName" name="itmeName" th:value="*{itemName}">
+
+② 단일 체크박스
+    ㄴ <input type="hidden" name="_open" value="on"> <-- 스프링과 타임리프를 사용하면 해당 체크박스에 name에 맞춰서 자동으로 생성됨.
+
+③ 멀티 체크박스
+
+④ 라디오 버튼

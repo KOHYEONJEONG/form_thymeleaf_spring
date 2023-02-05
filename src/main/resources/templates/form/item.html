@@ -54,7 +54,7 @@
 
         <!-- single checkbox(타임리프 사용 후) -->
         <div class="form-check">
-            <input type="checkbox" th:field="${item.open}" id="open" class="form-check-input">
+            <input type="checkbox" th:field="${item.open}" id="open" class="form-check-input" disabled>
             <!--자동으로 페이지검사 보임. <input type="hidden" name="_open" value="on"/> 생성되어있다(타임리프는 무적..) -->
             <label for="open" class="form-check-label">판매 오픈</label>
         </div>
@@ -71,7 +71,7 @@
         <div th:each="region : ${regions}" class="form-check form-check-inline" >
 
             <!--th:field="*{regions}"은 "*{item.regions}와 같다."-->
-            <input type="checkbox" th:field="${item.regions}" th:value="${region.key}" class="form-check-input">
+            <input type="checkbox" th:field="${item.regions}" th:value="${region.key}" class="form-check-input" disabled>
 
             <!-- th:for은 input에 id를 참조하므로 알아야함, 타임리프가 루프 돌때 id 각 다르게 만들어준다. 타임리프는 동적으로 생성될때 #ids를 지원해준다. -->
             <label th:for="${#ids.prev('regions')}" th:text="${region.value}" class="form-check-label"></label>
@@ -96,7 +96,7 @@
         <div>상품 종류</div>
         <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
             <input type="radio" th:field="${item.itemType}" th:value="${type.name()}"
-                   class="form-check-input">
+                   class="form-check-input" disabled>
             <label th:for="${#ids.prev('itemType')}" th:text="${type.description}"
                    class="form-check-label">
                 BOOK
@@ -104,6 +104,17 @@
         </div>
     </div>
 
+    <hr class="my-4">
+
+    <!--셀렉트 박스-->
+    <div>
+        <div>배송 방식</div>
+        <select th:field="${item.deliveryCode}" class="form-select" disabled>
+            <option value="">==배송 방식 선택==</option>
+            <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.code}"
+                    th:text="${deliveryCode.displayName}"></option>
+        </select>
+    </div>
 
     <hr class="my-4">
 

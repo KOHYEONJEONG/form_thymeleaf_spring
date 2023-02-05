@@ -17,7 +17,7 @@ public class Item {
 
     private ItemType itemType; //상품 종류(라디오버튼, 라디오는 무조건 단일선택이므로 list로 안함. ENUM으로 보냈으니 반환값도 똑같이 ItemType )
 
-    private String deliveryCode; //배송 방식
+    private String deliveryCode; //배송 방식(셀렉트 박스도 한가지 값만 선택하기에 String)
 
     public Item() {
     }
